@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"google.golang.org/genproto/googleapis/type/phone_number"
 )
 
 type User struct {
@@ -12,7 +11,7 @@ type User struct {
 	FirstName			*string				`json:"firstname" validate:"required, min=3, max=20"`
 	LastName			*string				`json:"lastname" validate:"required, min=3, max=20"`
 	Password			*string				`json:"password" validate:"required, min=5"`
-	Email				*string				`json:"password" validate:"required, email"`
+	Email				*string				`json:"email" validate:"required, email"`
 	Phone				*string				`json:"phone" validate:"required"`
 	Token				*string				`json:"token"`
 	User_type			*string				`json:"user_type" validate:"required, eq=ADMIN|eq=USER"`
