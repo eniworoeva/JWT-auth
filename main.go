@@ -10,7 +10,7 @@ import (
 func main()  {
 	port := os.Getenv("PORT")
 	if port == ""{
-		port = "8080"
+		port = "800 0"
 	}
 
 	router := gin.New()
