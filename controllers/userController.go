@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/eniworoeva/JWT-auth/database"
+	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -22,6 +23,10 @@ func SignUp()  {
 	
 }
 
-func GetUsers()
+func GetUsers() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userId := c.Params("user_id")
+	}
+}
 
 func GetUser()
