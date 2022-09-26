@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"time"
 
@@ -38,7 +39,12 @@ func SignUp() gin.HandlerFunc {
 		if validationErr !=  nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
 		}
-		
+		count, err := userCollection.CountDocuments(ctx, bson.M{"email":user.Email})
+		defer cancel()
+		if err != nil {
+			log.Panic(err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
 	}
 	
 }
