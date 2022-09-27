@@ -38,6 +38,7 @@ func SignUp() gin.HandlerFunc {
 		validationErr := validate.Struct(user)
 		if validationErr !=  nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
+			return
 		}
 		count, err := userCollection.CountDocuments(ctx, bson.M{"email":user.Email})
 		defer cancel()
@@ -45,12 +46,19 @@ func SignUp() gin.HandlerFunc {
 			log.Panic(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error occurred while checking for the email"})
 		}
+
 		count, err := userCollection.CountDocuments(ctx, bson.M{"phone":user.Phone})
 		defer cancel()
 		if err != nil {
 			log.Panic(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error occurred while checking for the phone number"})
 		}
+
+		if count > 0 {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "This email or phone number already exist"})
+		}
+
+		user.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format())
 	}
 	
 }
